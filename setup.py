@@ -7,7 +7,7 @@ from setuptools import setup
 
 here = os.path.abspath(os.path.dirname(__file__))
 
-NAME = u'djangobwr'
+NAME = u'Django Bower App'
 DESCRIPTION = u"Library to manage bower.json dependancies with ease"
 README = open(os.path.join(here, 'README.rst')).read()
 VERSION = open(os.path.join(here, 'VERSION')).read().strip()
