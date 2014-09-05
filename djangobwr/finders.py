@@ -1,18 +1,12 @@
 from django.contrib.staticfiles.finders import AppDirectoriesFinder
-from django.contrib.staticfiles import utils
-from django.utils import six
-from djangobwr.storage import BowerAppStaticStorage
-
+from django.contrib.staticfiles.storage import AppStaticStorage
 
 class AppDirectoriesFinderBower(AppDirectoriesFinder):
-    storage_class = BowerAppStaticStorage
+    storage_class = AppStaticStorage
 
     def list(self, ignore_patterns):
         """
         List all files in all app storages.
         """
-        for storage in six.itervalues(self.storages):
-            if storage.exists(''):  # check if storage location exists
-                for path in utils.get_files(storage, ignore_patterns):
-                    if not path.startswith("bower_components"):
-                        yield path, storage
+        ignore_patterns.append("bower_components")
+        return super(AppDirectoriesFinderBower, self).list(ignore_patterns)
