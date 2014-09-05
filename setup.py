@@ -15,7 +15,7 @@ AUTHOR = u'Yohann Gabory'
 EMAIL = u'yohann@gabory.fr'
 URL = u'https://github.com/boblefrag/django-bower-app'
 CLASSIFIERS = ['Development Status :: 3 - Alpha',
-               'License :: BSD',
+               'License :: OSI Approved :: BSD License',
                'Programming Language :: Python :: 2.7',
                'Framework :: Django']
 PACKAGES = ['djangobwr']
