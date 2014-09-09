@@ -2,6 +2,6 @@ Changelog
 =========
 
 
-0.4 (unreleased)
------------------
+0.4 (2014-09-09)
+----------------
 - added the lookup on the "main" entry of the bower.json
