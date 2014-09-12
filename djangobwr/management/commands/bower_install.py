@@ -30,8 +30,8 @@ class Command(BaseCommand):
                     open(os.path.join(bower_dir, directory,
                                       "bower.json")).read())
 
-                if not os.path.exists(os.path.join(settings.STATIC_ROOT)):
-                    os.mkdir(os.path.join(settings.STATIC_ROOT))
+                if not os.path.exists(settings.STATIC_ROOT):
+                    os.mkdir(settings.STATIC_ROOT)
 
                 if not os.path.exists(
                         os.path.join(settings.STATIC_ROOT, directory)):
