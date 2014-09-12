@@ -3,9 +3,11 @@ import json
 import tempfile
 import shutil
 from subprocess import call
+
 from django.core.management.base import BaseCommand
-from djangobwr.finders import AppDirectoriesFinderBower
 from django.conf import settings
+
+from djangobwr.finders import AppDirectoriesFinderBower
 
 
 class Command(BaseCommand):
