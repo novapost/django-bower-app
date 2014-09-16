@@ -34,12 +34,15 @@ class Command(BaseCommand):
                 if not os.path.exists(
                         os.path.join(settings.STATIC_ROOT, directory)):
                     os.mkdir(os.path.join(settings.STATIC_ROOT, directory))
-                if not isinstance(bower["main"], list):
-                    main = [bower["main"]]
+                if not isinstance(bower.get("main"), list):
+                    main = [bower.get("main")]
                 else:
-                    main = bower["main"]
-                for path in main:
-                    shutil.copy(os.path.join(bower_dir,
+                    main = bower.get("main")
+                if main is not None:
+                    for path in main:
+                        if path is not None:
+                            shutil.copy(
+                                os.path.join(bower_dir,
                                              directory,
                                              path),
                                 os.path.join(settings.STATIC_ROOT, directory))
