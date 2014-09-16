@@ -3,9 +3,11 @@ import json
 import tempfile
 import shutil
 from subprocess import call
+
 from django.core.management.base import BaseCommand
-from djangobwr.finders import AppDirectoriesFinderBower
 from django.conf import settings
+
+from djangobwr.finders import AppDirectoriesFinderBower
 
 
 class Command(BaseCommand):
@@ -28,12 +30,11 @@ class Command(BaseCommand):
                     open(os.path.join(bower_dir, directory,
                                       "bower.json")).read())
 
-                if not os.path.exists(os.path.join(settings.STATIC_ROOT)):
-                    os.mkdir(os.path.join(settings.STATIC_ROOT))
-
                 if not os.path.exists(
                         os.path.join(settings.STATIC_ROOT, directory)):
-                    os.mkdir(os.path.join(settings.STATIC_ROOT, directory))
+
+                    os.makedirs(os.path.join(settings.STATIC_ROOT, directory))
+
                 if not isinstance(bower.get("main"), list):
                     main = [bower.get("main")]
                 else:

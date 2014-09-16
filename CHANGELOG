@@ -5,7 +5,7 @@ Changelog
 0.5 (unreleased)
 ----------------
 
-- Nothing changed yet.
+- BugFixes. Should not raise if main or some path does not exists.
 
 
 0.4 (2014-09-09)
