@@ -2,11 +2,11 @@ Changelog
 =========
 
 
-0.5 (unreleased)
+0.5 (2014-09-16)
 ----------------
 
 - BugFixes. Should not raise if main or some path does not exists.
-
+- cleanup removed unwanted files
 
 0.4 (2014-09-09)
 ----------------
