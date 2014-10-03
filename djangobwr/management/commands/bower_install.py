@@ -3,6 +3,8 @@ import sys
 import json
 import tempfile
 import shutil
+
+from optparse import make_option
 from subprocess import call
 
 from django.core.management.base import BaseCommand
@@ -19,23 +21,59 @@ class Command(BaseCommand):
         - Gruntfile.js: grunt default
         - bower.json: bower install
     """
-    def npm_install(self, pkg_json_path):
+
+    option_list = BaseCommand.option_list + (
+        make_option('--verbose', action='store_true', dest='verbose',
+                    default=False, help='Display steps and commands.'),
+        make_option('--interactive', action='store_true', dest='interactive',
+                    default=False, help='Do not use bower force parameter.'),
+        )
+
+    def npm_install(self, pkg_json_path, verbose=False):
+        """Calls 'npm install' command from an app static dir.
+        """
         os.chdir(os.path.dirname(pkg_json_path))
-        call(['npm', 'install'])
 
-    def grunt_default(self, grunt_js_path):
+        args = ['npm', 'install']
+
+        if verbose:
+            print('\n > {0}\n'.format(' '.join(args)))
+
+        call(args)
+
+    def grunt_default(self, grunt_js_path, verbose=False):
+        """Calls 'grunt' command from an app static dir.
+        """
         os.chdir(os.path.dirname(grunt_js_path))
-        call(['grunt'])
 
-    def bower_install(self, bower_json_path, dest_dir):
+        args = ['grunt']
+
+        if verbose:
+            print('\n > {0}\n'.format(' '.join(args)))
+
+        call(args)
+
+    def bower_install(self, bower_json_path, dest_dir, verbose=False,
+                      interactive=False):
         """Runs bower commnand for the passed bower.json path.
 
-        :param bower_json_path: bower.json file to install
-        :param dest_dir: where the compiled result will arrive
+        By default it add the -F parameter to force the latest version of
+        dependencies to be installed. Otherwise it should be chosen manually.
+
+        :param bower_json_path: bower.json file to install.
+        :param dest_dir: where the compiled result will arrive.
+        :param interactive: if True does not add -F parameter that force latest
+                            versions to install.
         """
         # bower args
         args = ['bower', 'install', bower_json_path,
                 '--config.cwd={}'.format(dest_dir), '-p']
+
+        if verbose:
+            print('\n > {0}\n'.format(' '.join(args)))
+
+        if not interactive:
+            args.append('-F')
 
         # run bower command
         call(args)
@@ -80,6 +118,9 @@ class Command(BaseCommand):
         temp_dir = getattr(settings, 'BWR_APP_TMP_FOLDER', '.tmp')
         temp_dir = os.path.abspath(temp_dir)
 
+        verbose = options.get('verbose')
+        interactive = options.get('interactive')
+
         if not os.path.exists(temp_dir):
             os.makedirs(temp_dir)
 
@@ -97,13 +138,14 @@ class Command(BaseCommand):
                 continue
 
         for path in npm_list:
-            self.npm_install(path)
+            self.npm_install(path, verbose=verbose)
 
         for path in grunt_list:
-            self.grunt_default(path)
+            self.grunt_default(path, verbose=verbose)
 
         for path in bower_list:
-            self.bower_install(path, temp_dir)
+            self.bower_install(path, temp_dir, verbose=verbose,
+                               interactive=interactive)
 
         bower_dir = os.path.join(temp_dir, 'static', 'bower_components')
 
