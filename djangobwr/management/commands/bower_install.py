@@ -140,12 +140,12 @@ class Command(BaseCommand):
         for path in npm_list:
             self.npm_install(path, verbose=verbose)
 
-        for path in grunt_list:
-            self.grunt_default(path, verbose=verbose)
-
         for path in bower_list:
             self.bower_install(path, temp_dir, verbose=verbose,
                                interactive=interactive)
+
+        for path in grunt_list:
+            self.grunt_default(path, verbose=verbose)
 
         bower_dir = os.path.join(temp_dir, 'static', 'bower_components')
 
