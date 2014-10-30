@@ -1,7 +1,6 @@
 import os
 import sys
 import json
-import tempfile
 import shutil
 from subprocess import call
 
@@ -105,7 +104,7 @@ class Command(BaseCommand):
         for path in bower_list:
             self.bower_install(path, temp_dir)
 
-        bower_dir = os.path.join(temp_dir, 'static', 'bower_components')
+        bower_dir = os.path.join(temp_dir, 'bower_components')
 
         # nothing to clean
         if not os.path.exists(bower_dir):
