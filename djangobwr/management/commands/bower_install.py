@@ -20,7 +20,7 @@ class Command(BaseCommand):
     """
     def npm_install(self, pkg_json_path):
         os.chdir(os.path.dirname(pkg_json_path))
-        call(['npm', 'install'])
+        call(['npm', 'install', '--production'])
 
     def grunt_default(self, grunt_js_path):
         os.chdir(os.path.dirname(grunt_js_path))
